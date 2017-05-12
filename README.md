@@ -1,2 +1,2 @@
 # Urban Dictionary Java Client
-Urban Dictionary API to use within your Java applications
+Urban Dictionary Client to use within your Java applications
