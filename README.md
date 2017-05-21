@@ -38,5 +38,5 @@ Where:
 - **numberOfResults** in it absence the default value is 1, you can add more results to your search by setting this parameter.
 - **showExample** by default it is false, if you set it to true the search will bring a exemple about the term usage.
 
-###Issues or suggestions?
+### Issues or suggestions?
 Please submit your suggestion, we really appreciate it.
