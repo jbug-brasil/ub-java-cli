@@ -22,30 +22,33 @@
  SOFTWARE.
  */
 
-package br.com.jbugbrasil.ub.client;
+package br.com.jbugbrasil.urbandictionary.client;
 
-import br.com.jbugbrasil.ub.client.helper.CustomTermResponse;
-import br.com.jbugbrasil.ub.client.term.Term;
+import br.com.jbugbrasil.urbandictionary.client.builder.UrbanDictionaryClientBuilder;
+import br.com.jbugbrasil.urbandictionary.client.helper.CustomTermResponse;
+import br.com.jbugbrasil.urbandictionary.client.term.Term;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by fspolti on 5/12/17.
  */
-public class UBClient implements IUBClient {
+public class UrbanDictionaryClient implements IUrbanDictionaryClient {
 
-    private static final String UB_ENDPOINT = "http://api.urbandictionary.com/v0/define";
+    private static final String URBAN_DICTIONARY_ENDPOINT = "http://api.urbandictionary.com/v0/define";
 
     private final String term;
     private final int numberOfResults;
     private final boolean showExample;
 
-    public UBClient(UBClientBuilder builder) {
+    public UrbanDictionaryClient(UrbanDictionaryClientBuilder builder) {
         this.term = builder.term;
         this.numberOfResults = builder.numberOfResults;
         this.showExample = builder.showExample;
@@ -65,71 +68,27 @@ public class UBClient implements IUBClient {
 
     @Override
     public String toString() {
-        return "UBClientBuilder{" +
+        return "UrbanDictionaryClientBuilder{" +
                 "term='" + term + '\'' +
                 ", numberOfResults=" + numberOfResults +
                 '}';
     }
 
-    /**
-     * The request builder
-     * It should have at least the term parameter
-     *  term - term to be searched
-     *  numberOfResults - the number of term definitions that will be shown
-     *      in its absence, the number should be 1
-     *  showExample - if true, return a example of the term
-     */
-    public static class UBClientBuilder {
-
-        private String term;
-        private int numberOfResults = 1;
-        private boolean showExample;
-
-        public UBClientBuilder() {
-        }
-
-        public UBClientBuilder numberOfResults(int numberOfResults) {
-            this.numberOfResults = numberOfResults;
-            return this;
-        }
-
-        public UBClientBuilder term(String term) {
-            this.term = prepareTerm(term);
-            return this;
-        }
-
-        public UBClientBuilder showExample(boolean show) {
-            this.showExample = show;
-            return this;
-        }
-
-        public UBClient build() {
-            if (null == term || "".equals(term)) {
-                throw new IllegalArgumentException("The term parameter cannot be null.");
-            }
-            return new UBClient(this);
-        }
-
-        private String prepareTerm (String term) {
-            return term.replaceAll("&", "&amp;")
-                    .replaceAll("<", "&lt;")
-                    .replaceAll(">", "&gt;");
-        }
-    }
 
     /**
      * Execute the request
+     *
      * @return {@link CustomTermResponse}
      */
-    public List<CustomTermResponse> execute() {
+    public List<CustomTermResponse> execute() throws UnsupportedEncodingException {
 
         Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(this.UB_ENDPOINT + "?term=" + this.term);
+        WebTarget target = client.target(this.URBAN_DICTIONARY_ENDPOINT + "?term=" + encode(this.term));
 
         Response response = target.request().get();
 
         if (response.getStatus() != 200) {
-            throw new RuntimeException("Failed to connect in the ub endpoint " + this.UB_ENDPOINT + ", status code is: " + response.getStatus());
+            throw new RuntimeException("Failed to connect in the ub endpoint " + this.URBAN_DICTIONARY_ENDPOINT + ", status code is: " + response.getStatus());
         }
 
         List<CustomTermResponse> c = new ArrayList<>();
@@ -146,5 +105,16 @@ public class UBClient implements IUBClient {
                 });
 
         return c;
+    }
+
+    /**
+     * Encode the term
+     *
+     * @param term
+     * @return encoded term
+     * @throws UnsupportedEncodingException
+     */
+    private String encode(String term) throws UnsupportedEncodingException {
+        return URLEncoder.encode(term, "UTF-8");
     }
 }

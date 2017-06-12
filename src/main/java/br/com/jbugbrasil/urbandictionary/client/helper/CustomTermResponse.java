@@ -1,4 +1,4 @@
-package br.com.jbugbrasil.ub.client.helper;
+package br.com.jbugbrasil.urbandictionary.client.helper;
 
 /**
  * Created by fspolti on 5/15/17.

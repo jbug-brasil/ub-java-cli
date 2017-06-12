@@ -22,18 +22,21 @@
  SOFTWARE.
  */
 
-package br.com.jbugbrasil.ub.client;
+package br.com.jbugbrasil.urbandictionary.client;
 
-import br.com.jbugbrasil.ub.client.helper.CustomTermResponse;
+import br.com.jbugbrasil.urbandictionary.client.helper.CustomTermResponse;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by fspolti on 5/13/17.
  */
-public interface IUBClient <T>{
+public interface IUrbanDictionaryClient<T> {
 
     /**
      * Execute the request
      * @return {@link CustomTermResponse}
+     * @throws UnsupportedEncodingException for unsupported encoding operations
      */
-    T execute();
+    T execute() throws UnsupportedEncodingException;
 }

@@ -22,7 +22,7 @@
  SOFTWARE.
  */
 
-package br.com.jbugbrasil.ub.client.term;
+package br.com.jbugbrasil.urbandictionary.client.term;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import java.io.Serializable;
