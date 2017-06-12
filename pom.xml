@@ -6,7 +6,7 @@
 
     <groupId>br.com.jbugbrasil</groupId>
     <artifactId>urban-dictionary-client-api</artifactId>
-    <version>1.0.Final</version>
+    <version>1.1.Final</version>
     <packaging>jar</packaging>
 
     <description>
