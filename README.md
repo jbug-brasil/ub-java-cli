@@ -7,8 +7,6 @@ Supports:
 - com.fasterxml.jackson
 
 ### How to use it?
-First you need to build it until it is not available in any public manve repository (we are working on it).
-
 Add the following dependency on your pom.xml:
 
 ```java
